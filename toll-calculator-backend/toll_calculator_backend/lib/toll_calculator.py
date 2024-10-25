@@ -61,27 +61,27 @@ class TollCalculator:
         # No point in looping over all dates if toll free vehicle
         if self._is_toll_free_vehicle(vehicle) or len(dates) == 0:
             return 0
-        start_date = dates[0]
+
         total_fee = 0
+        max_fee_in_hour = 0
+        start_date = dates[0]
+
         for date in dates:
             next_fee = self.get_toll_fee_for_date(vehicle, date)
-            temp_fee = self.get_toll_fee_for_date(vehicle, start_date)
-
-            # Could use .seconds instead since we assume only dates for one day
             diff_minutes = (date - start_date).total_seconds() / 60
 
             if diff_minutes <= 60:
-                if total_fee > 0:
-                    total_fee -= temp_fee
-                if next_fee >= temp_fee:
-                    temp_fee = next_fee
-                total_fee += temp_fee
+                max_fee_in_hour = max(max_fee_in_hour, next_fee)
             else:
-                total_fee += next_fee
+                total_fee += max_fee_in_hour
+                start_date = date
+                max_fee_in_hour = next_fee
 
-        if total_fee > 60:
-            total_fee = 60
-        return total_fee
+            if total_fee >= 60:
+                return 60
+
+        total_fee += max_fee_in_hour
+        return min(total_fee, 60)
 
     def get_toll_fee_for_date(self, vehicle: Vehicle, date: datetime) -> int:
         if self._is_toll_free_vehicle(vehicle) or self._is_toll_free_date(date):
