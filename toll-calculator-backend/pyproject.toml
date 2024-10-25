@@ -11,6 +11,7 @@ python = "^3.11"
 fastapi = {extras = ["standard"], version = "^0.115.3"}
 uvicorn = "^0.32.0"
 pydantic-settings = "^2.6.0"
+holidays = "^0.59"
 
 
 [tool.poetry.group.dev.dependencies]
@@ -24,9 +25,6 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.mypy]
 python_version = "3.11"
-warn_return_any = true
-warn_unused_configs = true
-ignore_missing_imports = true
 plugins = [
     "pydantic.mypy",
 ]
