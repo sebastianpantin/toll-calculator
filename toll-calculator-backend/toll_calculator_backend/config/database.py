@@ -8,7 +8,7 @@ database_settings = get_database_settings()
 if app_settings.DEBUG:
     SQLALCHEMY_DATABASE_URL = database_settings.SQLITE_CONNECTION_STRING
 else:
-    SQLALCHEMY_DATABASE_URL = database_settings.POSTGRES_CONNECTION_STRING
+    SQLALCHEMY_DATABASE_URL = str(database_settings.POSTGRES_CONNECTION_STRING)
 
 engine = create_engine(
     SQLALCHEMY_DATABASE_URL,
