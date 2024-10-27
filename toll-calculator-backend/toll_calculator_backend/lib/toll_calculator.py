@@ -1,5 +1,5 @@
 from calendar import SATURDAY, SUNDAY
-from datetime import datetime
+from datetime import datetime, time
 
 import holidays
 
@@ -21,27 +21,28 @@ TOLL_FREE_VEHICLES: tuple[Vehicle, ...] = (
     Vehicle.Military,
 )
 
-Rule = tuple[tuple[int, int], tuple[int, int], int]
+Rule = tuple[time, time, int]
 
 
 class TimeRules:
     def __init__(self):
         self.rules: list[Rule] = [
-            ((6, 6), (0, 29), LOW_FEE),  # 06:00 - 06:29
-            ((6, 6), (30, 59), MED_FEE),  # 06:30 - 06:59
-            ((7, 7), (0, 59), HIGH_FEE),  # 07:00 - 07:59
-            ((8, 8), (0, 29), MED_FEE),  # 08:00 - 08:29
-            ((8, 14), (30, 59), LOW_FEE),  # 08:30 - 14:59
-            ((15, 15), (0, 29), MED_FEE),  # 15:00 - 15:29
-            ((15, 16), (30, 59), HIGH_FEE),  # 15:30 - 16:59
-            ((17, 17), (0, 59), MED_FEE),  # 17:00 - 17:59
-            ((18, 18), (0, 29), LOW_FEE),  # 18:00 - 18:29
+            (time(6, 0), time(6, 29), LOW_FEE),  # 06:00 - 06:29
+            (time(6, 30), time(6, 59), MED_FEE),  # 06:30 - 06:59
+            (time(7, 0), time(7, 59), HIGH_FEE),  # 07:00 - 07:59
+            (time(8, 0), time(8, 29), MED_FEE),  # 08:00 - 08:29
+            (time(8, 30), time(14, 59), LOW_FEE),  # 08:30 - 14:59
+            (time(15, 0), time(15, 29), MED_FEE),  # 15:00 - 15:29
+            (time(15, 30), time(16, 59), HIGH_FEE),  # 15:30 - 16:59
+            (time(17, 0), time(17, 59), MED_FEE),  # 17:00 - 17:59
+            (time(18, 0), time(18, 29), LOW_FEE),  # 18:00 - 18:29
         ]
 
     def get_fee(self, hour: int, minute: int):
-        for hour_range, minute_range, value in self.rules:
-            if hour_range[0] <= hour <= hour_range[1] and minute_range[0] <= minute <= minute_range[1]:
-                return value
+        current_time = time(hour, minute)
+        for start_time, end_time, fee in self.rules:
+            if start_time <= current_time <= end_time:
+                return fee
         return 0
 
 
@@ -59,6 +60,7 @@ class TollCalculator:
 
     def get_toll_fee_for_dates(self, vehicle: Vehicle, dates: list[datetime]) -> int:
         # No point in looping over all dates if toll free vehicle
+
         if self._is_toll_free_vehicle(vehicle) or len(dates) == 0:
             return 0
 

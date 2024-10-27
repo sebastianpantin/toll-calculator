@@ -12,6 +12,7 @@ fastapi = {extras = ["standard"], version = "^0.115.3"}
 uvicorn = "^0.32.0"
 pydantic-settings = "^2.6.0"
 holidays = "^0.59"
+sqlmodel = "^0.0.22"
 
 
 [tool.poetry.group.dev.dependencies]
@@ -33,3 +34,9 @@ plugins = [
 extend-exclude = [".venv/"]
 line-length = 120
 target-version = "py311"
+
+[toll.ruff.lint]
+ignore = ["F401"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["F401"]

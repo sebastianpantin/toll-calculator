@@ -5,22 +5,17 @@ from pydantic_settings import BaseSettings
 
 
 class DatabaseSettings(BaseSettings):
-    name: str = "fastapi_db"
-    user: str = "postgres"
-    password: str = "postgres"
-    host: str = "localhost"
-    port: int = 5432
+    """
+    Database settings
+    """
 
-    class Config:
-        env_prefix = "POSTGRES_DB_"
+    # SqlLite
+    SQLITE_CONNECTION_STRING: str = "sqlite:///database.db"
 
-    @property
-    def url(self) -> str:
-        return f"postgresql://{self.user}:{self.password}@{self.host}:{self.port}/{self.name}"
-
-    @property
-    def async_url(self) -> str:
-        return f"postgresql+asyncpg://{self.user}:{self.password}@{self.host}:{self.port}/{self.name}"
+    # PostgreSQL
+    POSTGRESS_USER: str | None = os.environ.get("POSTGRES_USER", None)
+    POSTGRESS_PASSWORD: str | None = os.environ.get("POSTGRES_PASSWORD", None)
+    POSTGRES_CONNECTION_STRING: str = f"postgresql://{POSTGRESS_USER}:{POSTGRESS_PASSWORD}@postgresserver/db"
 
 
 class Settings(BaseSettings):

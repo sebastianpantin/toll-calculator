@@ -1,14 +1,16 @@
-from datetime import date
-from pydantic import BaseModel, ConfigDict, UUID4, Field
+from datetime import datetime
+from pydantic import BaseModel, UUID4, Field
+from .vehicle import Vehicle
 
 
-class CreateTollEventRequest(BaseModel):
+class TollEventCreate(BaseModel):
     registration_number: str = Field(min_length=6, max_length=6, pattern=r"^[A-Z]{3}\d{2}[A-Z0-9]$")
-    time: date
+    vehicle: Vehicle
+    time: datetime
 
 
-class TollEvent(BaseModel):
-    model_config = ConfigDict(from_attributes=True)  # orm mode
+class TollEventOutput(BaseModel):
     id: UUID4
     registration_number: str = Field(min_length=6, max_length=6, pattern=r"^[A-Z]{3}\d{2}[A-Z0-9]$")
-    time: date
+    vehicle: Vehicle = Vehicle.Car
+    time: datetime
