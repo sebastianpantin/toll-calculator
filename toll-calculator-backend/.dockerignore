@@ -1,0 +1,11 @@
+# Ignore everything
+**
+
+# Unignore stuff
+!poetry.lock
+!pyproject.toml
+!poetry.toml
+!toll_calculator_backend/**
+
+#Ignore cache stuff
+**/__pycache__
