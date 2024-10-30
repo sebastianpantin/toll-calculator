@@ -13,7 +13,7 @@ I implemented a few unit tests for the main class "TollCalculator" and some inte
 
 My plan was to create a dashboard-like experience where you could view the toll events in different perspectives, for example to see how much toll a certain vehicle
 pays per day/week/month/year but as I was running out of time (personal deadline). I instead just created a simple view where one can register toll events to showcase
-connection between frontend and backend.
+connection between frontend and backend. The design is heavily inspired by standard chakra UI templates, since I'm pretty bad at designing stuff..
 
 ## How to run?
 It should be enough to have the tools necessary to run `docker compose up`, for installation instructions I refer to [docker compose](https://docs.docker.com/compose/install/).
