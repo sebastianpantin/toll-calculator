@@ -1,5 +1,5 @@
 from datetime import datetime
-from pydantic import BaseModel, UUID4, Field
+from pydantic import BaseModel, UUID4, Field 
 from .vehicle import Vehicle
 
 

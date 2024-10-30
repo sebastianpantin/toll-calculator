@@ -12,8 +12,8 @@ else:
 
 engine = create_engine(
     SQLALCHEMY_DATABASE_URL,
-    echo=True,
-    connect_args= {"check_same_thread": False} if app_settings.DEBUG else {},
+    echo=app_settings.DEBUG,
+    connect_args= {"check_same_thread": False} if app_settings.DEBUG else {}, # check_same_thread only in sqlite
 )
 
 
